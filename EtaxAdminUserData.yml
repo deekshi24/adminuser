@@ -1,0 +1,34 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+name: AdminUserData-deployment
+labels:
+app: AdminUserData
+spec:
+replicas: 1
+selector:
+matchLabels:
+app: AdminUserData
+template:
+metadata:
+labels:
+app: AdminUserData
+spec:
+containers:
+- name: etaxadminusercontainer 
+image: etaxadminusercontainer.azurecr.io/etaxadmincontainerrepo:latest
+ports:
+- containerPort: 8080
+imagePullSecrets:
+- name: webapisvcsecret
+---
+apiVersion: v1
+kind: Service
+metadata:
+name: AdminUserDatasvc
+spec:
+type: LoadBalancer
+ports:
+- port: 80
+selector:
+app: AdminUserData
